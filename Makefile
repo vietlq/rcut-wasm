@@ -1,4 +1,4 @@
-.PHONY: wasm webpack serve
+.PHONY: all wasm webpack serve
 
 wasm:
 	wasm-pack build
@@ -8,3 +8,5 @@ webpack:
 
 serve:
 	cd www && npm run start
+
+all: wasm webpack
