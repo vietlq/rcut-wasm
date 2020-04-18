@@ -3,7 +3,10 @@ mod utils;
 use wasm_bindgen::prelude::*;
 
 extern crate rcut;
-use rcut::{extract_ranged_pairs, merge_ranged_pairs, process_line_by_char_utf8};
+use rcut::{
+    extract_ranged_pairs, merge_ranged_pairs, prepare_ranged_pairs, process_line_by_byte,
+    process_line_by_char_utf8,
+};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -27,8 +30,15 @@ pub fn greet(name: &str) {
 }
 
 #[wasm_bindgen]
-pub fn rcut_char(line: &str, char_ranges: &str) -> String {
-    let ranged_pairs = extract_ranged_pairs(char_ranges);
+pub fn rcut_chars(line: &str, char_ranges: &str, merge_ranges: bool) -> String {
+    let ranged_pairs = prepare_ranged_pairs(!merge_ranges, char_ranges);
     let bytes = process_line_by_char_utf8(line, &ranged_pairs);
     String::from_utf8(bytes).unwrap()
+}
+
+#[wasm_bindgen]
+pub fn rcut_bytes(line: &str, byte_ranges: &str, merge_ranges: bool) -> Vec<u8> {
+    let ranged_pairs = prepare_ranged_pairs(!merge_ranges, byte_ranges);
+    let bytes = process_line_by_byte(line, &ranged_pairs);
+    bytes
 }

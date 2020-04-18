@@ -1,9 +1,18 @@
 import * as wasm from "rcut-wasm";
 
 function ready() {
-    let result = wasm.rcut_char("🦃🐔🐓🐣🐤🐥🐦🐧🕊🦅🦆🦢🦉🦚🦜", "9,4,7,3,12,5-15");
-    console.log(result);
-    document.getElementById("content").innerText = result;
+    let birds = "🦃🐔🐓🐣🐤🐥🐦🐧🕊🦅🦆🦢🦉🦚🦜";
+    let char_ranges = "9,4,7,3,12,5-15";
+
+    let unmerged_result = wasm.rcut_chars(birds, char_ranges);
+    console.log(unmerged_result);
+
+    let merged_result = wasm.rcut_chars(birds, char_ranges, true);
+    console.log(merged_result);
+
+    let unmerged_bytes = wasm.rcut_bytes(birds, char_ranges);
+
+    document.getElementById("content").innerText = unmerged_result + merged_result + unmerged_bytes;
 }
 
 //document.addEventListener("DOMContentLoaded", ready);
