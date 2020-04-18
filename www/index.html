@@ -31,19 +31,26 @@
         ev.preventDefault();
       }
 
-      function fileHandler(file, idx) {
+      function fileHandler(fileReader, file, idx) {
         console.log('... file[' + idx + '].name = ' + file.name);
         console.log('... file[' + idx + '].size = ' + file.size);
         console.log('... file[' + idx + '].type = ' + file.type);
         console.log('... file[' + idx + '].lastModified = ' + file.lastModified);
-        file.arrayBuffer().then(function(arrayBuffer) {
+        if (file.arrayBuffer) {
+          file.arrayBuffer().then(function(arrayBuffer) {
+            let buf = new Uint8Array(arrayBuffer);
+            console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+          });
+        } else {
+          let arrayBuffer = fileReader.readAsArrayBuffer(file);
           let buf = new Uint8Array(arrayBuffer);
           console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
-        });
+        }
       }
 
       function dropHandler(ev) {
         console.log('File(s) dropped');
+        let fileReader = new FileReader();
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
@@ -54,13 +61,13 @@
             // If dropped items aren't files, reject them
             if (ev.dataTransfer.items[i].kind === 'file') {
               var file = ev.dataTransfer.items[i].getAsFile();
-              fileHandler(file, i);
+              fileHandler(fileReader, file, i);
             }
           }
         } else {
           // Use DataTransfer interface to access the file(s)
           for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            fileHandler(ev.dataTransfer.files[i], i);
+            fileHandler(fileReader, ev.dataTransfer.files[i], i);
           }
         }
       }

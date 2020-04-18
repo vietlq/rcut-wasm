@@ -12,6 +12,7 @@
 ## How to handle file drops into web pages
 
 * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
+* https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
 * https://www.bennadel.com/blog/3599-loading-text-file-content-with-filereader-during-a-drag-and-drop-interaction-in-angular-7-2-12.htm
 * https://developer.mozilla.org/en-US/docs/Web/API/File
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
