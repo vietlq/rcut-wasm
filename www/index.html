@@ -35,24 +35,28 @@
         console.log('... file[' + idx + '].name = ' + file.name);
         console.log('... file[' + idx + '].size = ' + file.size);
         console.log('... file[' + idx + '].lastModified = ' + file.lastModified);
-        if (!file.type || file.type == null || file.type === undefined) {
-          return;
+        if (file.type) {
+          console.log('... file[' + idx + '].type = ' + file.type);
         }
-        console.log('... file[' + idx + '].type = ' + file.type);
         if (file.arrayBuffer) {
+          console.log("Got File.arrayBuffer");
           file.arrayBuffer().then(function(arrayBuffer) {
             let buf = new Uint8Array(arrayBuffer);
             console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
           });
         } else {
-          let fileReader = new FileReaderSync();
-          fileReader.onload = (function(theFile) {
-            console.log("Onload for the file: " + theFile.name);
-          })(file);
-          console.log("type(file) = ", type(file));
-          let arrayBuffer = fileReader.readAsArrayBuffer(file);
-          let buf = new Uint8Array(arrayBuffer);
-          console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+          console.log("Fallback on FileReader.onloadend");
+          let fileReader = new FileReader();
+
+          // If we use onloadend, we need to check the readyState.
+          fileReader.onloadend = function(evt) {
+            if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+              let buf = new Uint8Array(evt.target.result);
+              console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+            }
+          };
+
+          fileReader.readAsArrayBuffer(file);
         }
       }
 

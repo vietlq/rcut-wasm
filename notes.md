@@ -17,6 +17,8 @@
 * https://www.html5rocks.com/en/tutorials/file/dndfiles/#toc-reading-files
 * https://www.bennadel.com/blog/3599-loading-text-file-content-with-filereader-during-a-drag-and-drop-interaction-in-angular-7-2-12.htm
 * https://developer.mozilla.org/en-US/docs/Web/API/File
+* https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+* https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onload
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
 * https://www.youtube.com/watch?v=GlwBmVHN348
