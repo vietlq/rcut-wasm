@@ -3,12 +3,67 @@
   <head>
     <meta charset="utf-8">
     <title>Rcut Wasm</title>
+    <style>
+      #drop_zone {
+        border: 5px solid blue;
+        width:  300px;
+        height: 300px;
+      }
+    </style>
   </head>
   <body>
     <div>
       <pre id="content"></pre>
     </div>
+
+    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+      <p>Drag one or more files to this Drop Zone ...</p>
+    </div>
+
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
     <script src="./bootstrap.js"></script>
+
+    <script>
+      function dragOverHandler(ev) {
+        console.log('File(s) in drop zone');
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+      }
+
+      function fileHandler(file, idx) {
+        console.log('... file[' + idx + '].name = ' + file.name);
+        console.log('... file[' + idx + '].size = ' + file.size);
+        console.log('... file[' + idx + '].type = ' + file.type);
+        console.log('... file[' + idx + '].lastModified = ' + file.lastModified);
+        file.arrayBuffer().then(function(arrayBuffer) {
+          let buf = new Uint8Array(arrayBuffer);
+          console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+        });
+      }
+
+      function dropHandler(ev) {
+        console.log('File(s) dropped');
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+
+        if (ev.dataTransfer.items) {
+          // Use DataTransferItemList interface to access the file(s)
+          for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+            // If dropped items aren't files, reject them
+            if (ev.dataTransfer.items[i].kind === 'file') {
+              var file = ev.dataTransfer.items[i].getAsFile();
+              fileHandler(file, i);
+            }
+          }
+        } else {
+          // Use DataTransfer interface to access the file(s)
+          for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+            fileHandler(ev.dataTransfer.files[i], i);
+          }
+        }
+      }
+    </script>
   </body>
 </html>
