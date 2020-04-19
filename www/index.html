@@ -5,9 +5,21 @@
     <title>Rcut Wasm</title>
     <style>
       #drop_zone {
-        border: 5px solid blue;
-        width:  300px;
-        height: 300px;
+        border: 3px dotted blue;
+        width:  500px;
+        height: 200px;
+      }
+
+      .before-drag {
+        background-color: papayawhip;
+      }
+
+      .drag-enter {
+        background-color: yellowgreen;
+      }
+
+      .drop {
+        background-color: orange;
       }
     </style>
   </head>
@@ -16,7 +28,11 @@
       <pre id="content"></pre>
     </div>
 
-    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+    <div id="drop_zone" class="before-drag"
+                        ondrop="dropHandler(event);"
+                        ondragover="dragOverHandler(event);"
+                        ondragenter="dragEnterHandler(event);"
+                        ondragleave="dragLeaveHandler(event);">
       <p>Drag one or more files to this Drop Zone ...</p>
     </div>
 
@@ -25,10 +41,16 @@
 
     <script>
       function dragOverHandler(ev) {
-        console.log('File(s) in drop zone');
-
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
+      }
+
+      function dragEnterHandler(ev) {
+        ev.target.className = "drag-enter";
+      }
+
+      function dragLeaveHandler(ev) {
+        ev.target.className = "";
       }
 
       function fileHandler(file, idx) {
@@ -65,6 +87,8 @@
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
+        // Another style
+        ev.target.className = "drop";
 
         if (ev.dataTransfer.items) {
           // Use DataTransferItemList interface to access the file(s)

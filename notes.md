@@ -15,6 +15,8 @@
 * https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
 * https://stackoverflow.com/questions/16182027/invalid-state-error-in-chrome-when-using-filereader
 * https://www.html5rocks.com/en/tutorials/file/dndfiles/#toc-reading-files
+* https://css-tricks.com/drag-and-drop-file-uploading/
+* https://developer.mozilla.org/en-US/docs/Web/API/Document/drop_event
 * https://www.bennadel.com/blog/3599-loading-text-file-content-with-filereader-during-a-drag-and-drop-interaction-in-angular-7-2-12.htm
 * https://developer.mozilla.org/en-US/docs/Web/API/File
 * https://developer.mozilla.org/en-US/docs/Web/API/FileReader
