@@ -22,11 +22,9 @@
         background-color: orange;
       }
     </style>
+    <script src="./bootstrap.js"></script>
   </head>
   <body>
-    <div>
-      <pre id="content"></pre>
-    </div>
 
     <div id="drop_zone" class="before-drag"
                         ondrop="dropHandler(event);"
@@ -36,8 +34,15 @@
       <p>Drag one or more files to this Drop Zone ...</p>
     </div>
 
+    <div>
+      <pre id="content"></pre>
+    </div>
+
+    <div>
+      <pre id="dyn_content"></pre>
+    </div>
+
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
-    <script src="./bootstrap.js"></script>
 
     <script>
       function dragOverHandler(ev) {
@@ -53,7 +58,7 @@
         ev.target.className = "";
       }
 
-      function fileHandler(file, idx) {
+      function fileHandler(file, idx, consumer) {
         console.log('... file[' + idx + '].name = ' + file.name);
         console.log('... file[' + idx + '].size = ' + file.size);
         console.log('... file[' + idx + '].lastModified = ' + file.lastModified);
@@ -64,7 +69,13 @@
           console.log("Got File.arrayBuffer");
           file.arrayBuffer().then(function(arrayBuffer) {
             let buf = new Uint8Array(arrayBuffer);
+            console.log('... file[' + idx + '].length = ' + buf.length);
             console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+            try {
+              consumer(buf);
+            } catch(e) {
+              console.error("Got an error when processing Uint8Array!");
+            }
           });
         } else {
           console.log("Fallback on FileReader.onloadend");
@@ -74,7 +85,13 @@
           fileReader.onloadend = function(evt) {
             if (evt.target.readyState == FileReader.DONE) { // DONE == 2
               let buf = new Uint8Array(evt.target.result);
+              console.log('... file[' + idx + '].length = ' + buf.length);
               console.log('... file[' + idx + '].first_100_bytes = ' + buf.slice(0, 100));
+              try {
+                consumer(buf);
+              } catch(e) {
+                console.error("Got an error when processing Uint8Array!");
+              }
             }
           };
 
@@ -84,6 +101,12 @@
 
       function dropHandler(ev) {
         console.log('File(s) dropped');
+
+        let result = "";
+        let char_ranges = "9,4,7,3,12,5-15";
+        let consumer = function(raw_array) {
+          result += rcut.process_raw_array(raw_array, char_ranges);
+        };
 
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
@@ -96,15 +119,18 @@
             // If dropped items aren't files, reject them
             if (ev.dataTransfer.items[i].kind === 'file') {
               var file = ev.dataTransfer.items[i].getAsFile();
-              fileHandler(file, i);
+              fileHandler(file, i, consumer);
             }
           }
         } else {
           // Use DataTransfer interface to access the file(s)
           for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            fileHandler(ev.dataTransfer.files[i], i);
+            fileHandler(ev.dataTransfer.files[i], i, consumer);
           }
         }
+
+        let dynContentEle = document.getElementById("dyn_content");
+        dynContentEle.innerText = result;
       }
     </script>
   </body>

@@ -26,6 +26,17 @@
 * https://www.youtube.com/watch?v=GlwBmVHN348
 * https://stackoverflow.com/questions/29516390/how-to-access-the-value-of-a-promise
 
+## Logging & debugging
+
+* https://crates.io/crates/console_error_panic_hook
+* https://github.com/rustwasm/wasm-pack/issues/724
+
+## UTF-8, String, and raw bytes in JS
+
+* https://stackoverflow.com/questions/8936984/uint8array-to-string-in-javascript
+* https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder
+* https://github.com/emscripten-core/emscripten/issues/8441
+
 ## Excel in JS
 
 * https://github.com/SheetJS/sheetjs
