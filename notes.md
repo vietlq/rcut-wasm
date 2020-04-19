@@ -37,6 +37,7 @@
 * https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder
 * https://github.com/emscripten-core/emscripten/issues/8441
 * https://github.com/rustwasm/wasm-bindgen/issues/779
+* https://rustwasm.github.io/wasm-bindgen/reference/types/number-slices.html
 
 ## Excel in JS
 
