@@ -36,6 +36,7 @@
 * https://stackoverflow.com/questions/8936984/uint8array-to-string-in-javascript
 * https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder
 * https://github.com/emscripten-core/emscripten/issues/8441
+* https://github.com/rustwasm/wasm-bindgen/issues/779
 
 ## Excel in JS
 

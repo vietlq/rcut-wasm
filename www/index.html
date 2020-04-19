@@ -102,10 +102,12 @@
       function dropHandler(ev) {
         console.log('File(s) dropped');
 
-        let result = "";
+        let dynContentEle = document.getElementById("dyn_content");
+        dynContentEle.innerText = "";
+
         let char_ranges = "9,4,7,3,12,5-15";
         let consumer = function(raw_array) {
-          result += rcut.process_raw_array(raw_array, char_ranges);
+          dynContentEle.innerText += rcut.process_raw_array(raw_array, char_ranges);
         };
 
         // Prevent default behavior (Prevent file from being opened)
@@ -128,9 +130,6 @@
             fileHandler(ev.dataTransfer.files[i], i, consumer);
           }
         }
-
-        let dynContentEle = document.getElementById("dyn_content");
-        dynContentEle.innerText = result;
       }
     </script>
   </body>

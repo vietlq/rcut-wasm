@@ -47,8 +47,7 @@ pub fn rcut_bytes(line: &str, byte_ranges: &str, merge_ranges: bool) -> Vec<u8> 
 }
 
 // https://github.com/emscripten-core/emscripten/issues/8441
-fn rcut_chars_from_raw_impl(raw_chars: &Vec<u8>, char_ranges: &str) -> String {
-    let input_str = String::from_utf8(raw_chars.clone()).unwrap();
+fn rcut_chars_from_raw_impl(input_str: &str, char_ranges: &str) -> String {
     let cursor = std::io::Cursor::new(&input_str);
     let buf_reader = BufReader::new(cursor);
     let merge_ranges = true;
@@ -59,18 +58,17 @@ fn rcut_chars_from_raw_impl(raw_chars: &Vec<u8>, char_ranges: &str) -> String {
         result.extend(process_line_by_char_utf8(&line.unwrap(), &ranged_pairs));
     }
 
-    String::from_utf8(result).unwrap()
+    let out = String::from_utf8(result).unwrap();
+    //log(&format!("out = {:?}", out));
+    out
 }
 
 #[wasm_bindgen]
 #[no_mangle]
-pub fn rcut_chars_from_raw(raw_chars: *const u8, input_size: usize, char_ranges: &str) -> String {
+pub fn rcut_chars_from_raw(raw_chars: &[u8], char_ranges: &str) -> String {
     console_error_panic_hook::set_once();
 
-    unsafe {
-        rcut_chars_from_raw_impl(
-            &slice::from_raw_parts(raw_chars, input_size).to_vec(),
-            char_ranges,
-        )
-    }
+    //log(&format!("raw_chars = {:?}", raw_chars));
+
+    rcut_chars_from_raw_impl(std::str::from_utf8(raw_chars).unwrap(), char_ranges)
 }

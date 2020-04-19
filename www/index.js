@@ -1,9 +1,5 @@
 import * as wasm from "rcut-wasm";
 
-function process_raw_array(raw_array, char_ranges) {
-    return wasm.rcut_chars_from_raw(raw_array, raw_array.length, char_ranges);
-}
-
 function show_rcut() {
     let birds = "🦃🐔🐓🐣🐤🐥🐦🐧🕊🦅🦆🦢🦉🦚🦜";
     let char_ranges = "9,4,7,3,12,5-15";
@@ -25,9 +21,5 @@ function show_rcut() {
 }
 
 window.rcut = {};
-window.rcut.process_raw_array = process_raw_array;
+window.rcut.process_raw_array = wasm.rcut_chars_from_raw;
 window.rcut.show_rcut = show_rcut;
-
-//document.addEventListener("DOMContentLoaded", ready);
-//document.addEventListener("load", ready);
-//show_rcut();
