@@ -8,8 +8,8 @@ use std::io::BufReader;
 use std::slice;
 use wasm_bindgen::prelude::*;
 
-extern crate rcut;
-use rcut::{prepare_ranged_pairs, process_line_by_byte, process_line_by_char_utf8};
+extern crate rcut_lib;
+use rcut_lib::{prepare_ranged_pairs, process_line_by_byte, process_line_by_char_utf8};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
